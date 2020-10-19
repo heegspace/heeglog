@@ -101,7 +101,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		return
 	}
 
-	req := &lognode.CallLogReq{
+	logreq := &lognode.CallLogReq{
 		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
 		Func:      _func,
@@ -110,7 +110,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:     extra,
 	}
 
-	logNode.CallLog(ctx, req)
+	logNode.CallLog(ctx, logreq)
 	return
 }
 
@@ -119,7 +119,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		return
 	}
 
-	req := &lognode.CallLogReq{
+	logreq := &lognode.CallLogReq{
 		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
 		Func:      _func,
@@ -128,7 +128,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:     extra,
 	}
 
-	logNode.CallLog(ctx, req)
+	logNode.CallLog(ctx, logreq)
 	return
 }
 
@@ -137,7 +137,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		return
 	}
 
-	req := &lognode.CallLogReq{
+	logreq := &lognode.CallLogReq{
 		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
 		Func:      _func,
@@ -146,7 +146,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:     extra,
 	}
 
-	logNode.CallLog(ctx, req)
+	logNode.CallLog(ctx, logreq)
 	return
 }
 
@@ -155,7 +155,7 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		return
 	}
 
-	req := &lognode.CallLogReq{
+	logreq := &lognode.CallLogReq{
 		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
 		Func:      _func,
@@ -164,6 +164,6 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:     extra,
 	}
 
-	logNode.CallLog(ctx, req)
+	logNode.CallLog(ctx, logreq)
 	return
 }
