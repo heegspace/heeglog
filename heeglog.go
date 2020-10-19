@@ -11,18 +11,22 @@ import (
 )
 
 var (
-	logNode *lognode.LognodeServiceClient
+	gip          string
+	gserver_name string
+	logNode      *lognode.LognodeServiceClient
 )
 
-func Init(s2s *registry.S2sName) {
-	if nil == s2s {
-		panic("s2s info is nil!")
+func Init(logs2s *registry.S2sName, server_name, ip string) {
+	if nil == logs2s {
+		panic("logs2s info is nil!")
 	}
 	client := heegrpc.NewHeegRpcClient(rpc.Option{
-		Addr: s2s.Host,
-		Port: int(s2s.Port),
+		Addr: logs2s.Host,
+		Port: int(logs2s.Port),
 	})
 
+	gip = ip
+	gserver_name = server_name
 	logNode = lognode.NewLognodeServiceClientFactory(client.Client())
 
 	return
@@ -34,11 +38,13 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 	}
 
 	req := &lognode.LogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Info:      info,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Info:       info,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.Log(ctx, req)
@@ -51,11 +57,13 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 	}
 
 	req := &lognode.LogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Info:      info,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Info:       info,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.Log(ctx, req)
@@ -68,11 +76,13 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 	}
 
 	req := &lognode.LogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Info:      info,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Info:       info,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.Log(ctx, req)
@@ -85,11 +95,13 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 	}
 
 	req := &lognode.LogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Info:      info,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Info:       info,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.Log(ctx, req)
@@ -102,12 +114,14 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 	}
 
 	logreq := &lognode.CallLogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Req:       req,
-		Res:       res,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Req:        req,
+		Res:        res,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.CallLog(ctx, logreq)
@@ -120,12 +134,14 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 	}
 
 	logreq := &lognode.CallLogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Req:       req,
-		Res:       res,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Req:        req,
+		Res:        res,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.CallLog(ctx, logreq)
@@ -138,12 +154,14 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 	}
 
 	logreq := &lognode.CallLogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Req:       req,
-		Res:       res,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Req:        req,
+		Res:        res,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.CallLog(ctx, logreq)
@@ -156,12 +174,14 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 	}
 
 	logreq := &lognode.CallLogReq{
-		Level:     lognode.LogLevel_INFO,
-		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func:      _func,
-		Req:       req,
-		Res:       res,
-		Extra:     extra,
+		Level:      lognode.LogLevel_INFO,
+		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
+		Func:       _func,
+		Req:        req,
+		Res:        res,
+		ServerName: gserver_name,
+		Ip:         gip,
+		Extra:      extra,
 	}
 
 	logNode.CallLog(ctx, logreq)
