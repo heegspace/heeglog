@@ -1,8 +1,8 @@
 package heeglog
 
 import (
+	"context"
 	"time"
-	"encoding/json"
 
 	"github.com/heegspace/heegproto/lognode"
 	"github.com/heegspace/heegrpc"
@@ -28,142 +28,142 @@ func Init(s2s *registry.S2sName) {
 	return
 }
 
-func Info(ctx context.Context, _func string, info string, extra map[string,string]) {
+func Info(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
 
 	req := &lognode.LogReq{
 		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Info: info,
-		Extra: extra,
+		Func:      _func,
+		Info:      info,
+		Extra:     extra,
 	}
 
 	logNode.Log(ctx, req)
-	return 
+	return
 }
 
-func Debug(ctx context.Context, _func string, info string, extra map[string,string]) {
+func Debug(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.LogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Info: info,
-		Extra: extra,
+		Func:      _func,
+		Info:      info,
+		Extra:     extra,
 	}
 
 	logNode.Log(ctx, req)
-	return 
+	return
 }
 
-func Warn(ctx context.Context, _func string, info string, extra map[string,string]) {
+func Warn(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.LogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Info: info,
-		Extra: extra,
+		Func:      _func,
+		Info:      info,
+		Extra:     extra,
 	}
 
 	logNode.Log(ctx, req)
-	return 
+	return
 }
 
-func Error(ctx context.Context, _func string, info string, extra map[string,string]) {
+func Error(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.LogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Info: info,
-		Extra: extra,
+		Func:      _func,
+		Info:      info,
+		Extra:     extra,
 	}
 
 	logNode.Log(ctx, req)
-	return 
+	return
 }
 
-func CallInfo(ctx context.Context, _func string, req,res string, extra map[string,string]) {
+func CallInfo(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.CallLogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Req: req,
-		Res: res,
-		Extra: extra,
+		Func:      _func,
+		Req:       req,
+		Res:       res,
+		Extra:     extra,
 	}
 
 	logNode.CallLog(ctx, req)
-	return 
+	return
 }
 
-func CallDebug(ctx context.Context, _func string, req,res string, extra map[string,string]) {
+func CallDebug(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.CallLogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Req: req,
-		Res: res,
-		Extra: extra,
+		Func:      _func,
+		Req:       req,
+		Res:       res,
+		Extra:     extra,
 	}
 
 	logNode.CallLog(ctx, req)
-	return 
+	return
 }
 
-func CallWarn(ctx context.Context, _func string, req,res string, extra map[string,string]) {
+func CallWarn(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.CallLogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Req: req,
-		Res: res,
-		Extra: extra,
+		Func:      _func,
+		Req:       req,
+		Res:       res,
+		Extra:     extra,
 	}
 
 	logNode.CallLog(ctx, req)
-	return 
+	return
 }
 
-func CallError(ctx context.Context, _func string, req,res string, extra map[string,string]) {
+func CallError(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logNode {
-		return 
+		return
 	}
-	
+
 	req := &lognode.CallLogReq{
-		Level: lognode.LogLevel_INFO,
+		Level:     lognode.LogLevel_INFO,
 		Timestamp: time.Now().Format("2006-01-02 15:04:05"),
-		Func: _func,
-		Req: req,
-		Res: res,
-		Extra: extra,
+		Func:      _func,
+		Req:       req,
+		Res:       res,
+		Extra:     extra,
 	}
 
 	logNode.CallLog(ctx, req)
-	return 
+	return
 }
