@@ -2,6 +2,7 @@ package heeglog
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/heegspace/heegproto/lognode"
@@ -47,7 +48,11 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode.Log(ctx, req)
+	_, err := logNode.Log(ctx, req)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -66,7 +71,11 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode.Log(ctx, req)
+	_, err := logNode.Log(ctx, req)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -85,7 +94,11 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode.Log(ctx, req)
+	_, err := logNode.Log(ctx, req)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -104,7 +117,11 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode.Log(ctx, req)
+	_, err := logNode.Log(ctx, req)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -124,7 +141,11 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode.CallLog(ctx, logreq)
+	_err := logNode.CallLog(ctx, logreq)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -144,7 +165,11 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode.CallLog(ctx, logreq)
+	_, err := logNode.CallLog(ctx, logreq)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -164,7 +189,11 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode.CallLog(ctx, logreq)
+	_, err := logNode.CallLog(ctx, logreq)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
 
@@ -184,6 +213,10 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode.CallLog(ctx, logreq)
+	_, err := logNode.CallLog(ctx, logreq)
+	if nil != err {
+		fmt.Println(req)
+	}
+
 	return
 }
