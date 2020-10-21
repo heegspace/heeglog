@@ -28,7 +28,7 @@ func Init(logs2s *registry.S2sName, server_name, ip string) {
 
 	gip = ip
 	gserver_name = server_name
-	logNode = lognode.NewLognodeServiceClientFactory(client.Client())
+	logNode = lognode.NewLognodeServiceClient(client.Client())
 
 	return
 }
