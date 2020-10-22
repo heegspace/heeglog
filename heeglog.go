@@ -14,21 +14,20 @@ import (
 var (
 	gip          string
 	gserver_name string
-	logNode      *lognode.LognodeServiceClient
+	logClient    *rpc.HeegClient
 )
 
 func Init(logs2s *registry.S2sName, server_name, ip string) {
 	if nil == logs2s {
 		panic("logs2s info is nil!")
 	}
-	client := heegrpc.NewHeegRpcClient(rpc.Option{
+	logClient = heegrpc.NewHeegRpcClient(rpc.Option{
 		Addr: logs2s.Host,
 		Port: int(logs2s.Port),
 	})
 
 	gip = ip
 	gserver_name = server_name
-	logNode = lognode.NewLognodeServiceClient(client.Client())
 
 	return
 }
@@ -48,6 +47,7 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -71,6 +71,7 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -94,6 +95,7 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -117,6 +119,7 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -141,6 +144,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -165,6 +169,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -189,6 +194,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -213,6 +219,7 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
+	logNode := lognode.NewLognodeServiceClient(logClient.Client())
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
