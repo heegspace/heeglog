@@ -33,7 +33,7 @@ func Init(logs2s *registry.S2sName, server_name, ip string) {
 }
 
 func Info(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -57,7 +57,7 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 }
 
 func Debug(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -81,7 +81,7 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 }
 
 func Warn(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -105,7 +105,7 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 }
 
 func Error(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -129,7 +129,7 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 }
 
 func CallInfo(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -154,7 +154,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 }
 
 func CallDebug(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -179,7 +179,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 }
 
 func CallWarn(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
@@ -204,7 +204,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 }
 
 func CallError(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logNode {
+	if nil == logClient {
 		return
 	}
 
