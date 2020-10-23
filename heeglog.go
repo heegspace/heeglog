@@ -9,15 +9,17 @@ import (
 	"github.com/heegspace/heegrpc"
 	"github.com/heegspace/heegrpc/registry"
 	"github.com/heegspace/heegrpc/rpc"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
+	local        bool
 	gip          string
 	gserver_name string
 	logClient    *rpc.HeegClient
 )
 
-func Init(logs2s *registry.S2sName, server_name, ip string) {
+func Init(logs2s *registry.S2sName, server_name, ip string, islocal bool) {
 	if nil == logs2s {
 		panic("logs2s info is nil!")
 	}
@@ -27,6 +29,7 @@ func Init(logs2s *registry.S2sName, server_name, ip string) {
 	})
 
 	gip = ip
+	local = islocal
 	gserver_name = server_name
 
 	return
@@ -34,6 +37,12 @@ func Init(logs2s *registry.S2sName, server_name, ip string) {
 
 func Info(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logClient {
+		return
+	}
+
+	if local {
+		log.Println("func: " + _func + "  info:" + info)
+
 		return
 	}
 
@@ -61,6 +70,12 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		return
 	}
 
+	if local {
+		log.Debug("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	req := &lognode.LogReq{
 		Level:      lognode.LogLevel_INFO,
 		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
@@ -82,6 +97,12 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 
 func Warn(ctx context.Context, _func string, info string, extra map[string]string) {
 	if nil == logClient {
+		return
+	}
+
+	if local {
+		log.Warn("func: " + _func + "  info:" + info)
+
 		return
 	}
 
@@ -109,6 +130,12 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		return
 	}
 
+	if local {
+		log.Error("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	req := &lognode.LogReq{
 		Level:      lognode.LogLevel_INFO,
 		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
@@ -130,6 +157,12 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 
 func CallInfo(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logClient {
+		return
+	}
+
+	if local {
+		log.Info(_func + "  req: " + req + "  res: " + res)
+
 		return
 	}
 
@@ -158,6 +191,12 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		return
 	}
 
+	if local {
+		log.Debug(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	logreq := &lognode.CallLogReq{
 		Level:      lognode.LogLevel_INFO,
 		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
@@ -183,6 +222,12 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		return
 	}
 
+	if local {
+		log.Warn(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	logreq := &lognode.CallLogReq{
 		Level:      lognode.LogLevel_INFO,
 		Timestamp:  time.Now().Format("2006-01-02 15:04:05"),
@@ -205,6 +250,12 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 
 func CallError(ctx context.Context, _func string, req, res string, extra map[string]string) {
 	if nil == logClient {
+		return
+	}
+
+	if local {
+		log.Error(_func + "  req: " + req + "  res: " + res)
+
 		return
 	}
 
