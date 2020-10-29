@@ -22,7 +22,7 @@ var (
 func Lognode(s2sname string) *lognode.LognodeServiceClient {
 	lognode_s2s, err := registry.NewRegistry().Selector(s2sname)
 	if nil != err {
-		panic(err)
+		return nil
 	}
 
 	client := heegrpc.NewHeegRpcClient(rpc.Option{
@@ -45,10 +45,6 @@ func Init(server_name, ip, _s2sname string, islocal bool) {
 }
 
 func Info(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Println("func: " + _func + "  info:" + info)
 
@@ -66,6 +62,12 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Println("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -75,10 +77,6 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 }
 
 func Debug(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Debug("func: " + _func + "  info:" + info)
 
@@ -96,6 +94,12 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Debug("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -105,10 +109,6 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 }
 
 func Warn(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Warn("func: " + _func + "  info:" + info)
 
@@ -126,6 +126,12 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Warn("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -135,10 +141,6 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 }
 
 func Error(ctx context.Context, _func string, info string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Error("func: " + _func + "  info:" + info)
 
@@ -156,6 +158,12 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Error("func: " + _func + "  info:" + info)
+
+		return
+	}
+
 	err := logNode.Log(ctx, req)
 	if nil != err {
 		fmt.Println(req)
@@ -165,10 +173,6 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 }
 
 func CallInfo(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Info(_func + "  req: " + req + "  res: " + res)
 
@@ -187,6 +191,12 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Info(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -196,10 +206,6 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 }
 
 func CallDebug(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Debug(_func + "  req: " + req + "  res: " + res)
 
@@ -218,6 +224,12 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Debug(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -227,10 +239,6 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 }
 
 func CallWarn(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Warn(_func + "  req: " + req + "  res: " + res)
 
@@ -249,6 +257,12 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Warn(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
@@ -258,10 +272,6 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 }
 
 func CallError(ctx context.Context, _func string, req, res string, extra map[string]string) {
-	if nil == logClient {
-		return
-	}
-
 	if local {
 		log.Error(_func + "  req: " + req + "  res: " + res)
 
@@ -280,6 +290,12 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 	}
 
 	logNode := Lognode(s2sname)
+	if nil == logNode {
+		log.Error(_func + "  req: " + req + "  res: " + res)
+
+		return
+	}
+
 	err := logNode.CallLog(ctx, logreq)
 	if nil != err {
 		fmt.Println(req)
