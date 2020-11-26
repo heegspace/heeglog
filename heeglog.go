@@ -19,6 +19,10 @@ var (
 	s2sname      string
 )
 
+func Println(args ...interface{}) {
+	log.Println(args)
+}
+
 func Lognode(s2sname string) *lognode.LognodeServiceClient {
 	lognode_s2s, err := registry.NewRegistry().Selector(s2sname)
 	if nil != err {
