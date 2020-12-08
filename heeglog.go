@@ -3,6 +3,7 @@ package heeglog
 import (
 	"context"
 	"fmt"
+	"thrift"
 	"time"
 
 	"github.com/heegspace/heegproto/lognode"
@@ -23,10 +24,10 @@ func Println(args ...interface{}) {
 	log.Println(args)
 }
 
-func Lognode(s2sname string) *lognode.LognodeServiceClient {
+func Lognode(s2sname string) (*lognode.LognodeServiceClient, *thrift.TBufferedTransport) {
 	lognode_s2s, err := registry.NewRegistry().Selector(s2sname)
 	if nil != err {
-		return nil
+		return nil, nil
 	}
 
 	client := heegrpc.NewHeegRpcClient(rpc.Option{
@@ -34,9 +35,10 @@ func Lognode(s2sname string) *lognode.LognodeServiceClient {
 		Port: int(lognode_s2s.Port),
 	})
 
-	lognode := lognode.NewLognodeServiceClient(client.Client())
+	clt, trans := client.Client()
+	lognode := lognode.NewLognodeServiceClient(clt)
 
-	return lognode
+	return lognode, trans
 }
 
 func Init(server_name, ip, _s2sname string, islocal bool) {
@@ -65,7 +67,9 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Println("func: " + _func + "  info:" + info)
 
@@ -97,7 +101,9 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Debug("func: " + _func + "  info:" + info)
 
@@ -129,7 +135,9 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Warn("func: " + _func + "  info:" + info)
 
@@ -161,7 +169,9 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Error("func: " + _func + "  info:" + info)
 
@@ -194,7 +204,9 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Info(_func + "  req: " + req + "  res: " + res)
 
@@ -227,7 +239,9 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Debug(_func + "  req: " + req + "  res: " + res)
 
@@ -260,7 +274,9 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Warn(_func + "  req: " + req + "  res: " + res)
 
@@ -293,7 +309,9 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode := Lognode(s2sname)
+	logNode, trans := Lognode(s2sname)
+	defer trans.Close()
+
 	if nil == logNode {
 		log.Error(_func + "  req: " + req + "  res: " + res)
 
