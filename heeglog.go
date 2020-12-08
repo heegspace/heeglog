@@ -3,8 +3,9 @@ package heeglog
 import (
 	"context"
 	"fmt"
-	"thrift"
 	"time"
+
+	"github.com/heegspace/thrift"
 
 	"github.com/heegspace/heegproto/lognode"
 	"github.com/heegspace/heegrpc"
