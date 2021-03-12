@@ -2,6 +2,7 @@ package heeglog
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -23,6 +24,15 @@ var (
 
 func Println(args ...interface{}) {
 	log.Println(args)
+}
+
+func Json(obj interface{}) string {
+	if nil == obj {
+		return ""
+	}
+
+	data, _ := json.Marshal(obj)
+	return string(data)
 }
 
 func Lognode(s2sname string) (*lognode.LognodeServiceClient, *thrift.TBufferedTransport) {
