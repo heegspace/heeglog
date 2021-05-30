@@ -65,7 +65,7 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Func:       _func,
 		Info:       info,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
@@ -87,7 +87,7 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Func:       _func,
 		Info:       info,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
@@ -109,7 +109,7 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Func:       _func,
 		Info:       info,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
@@ -131,7 +131,7 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Func:       _func,
 		Info:       info,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
@@ -154,11 +154,11 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Req:        req,
 		Res:        res,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(s2sname, logreq)
 
 	return
 }
@@ -177,11 +177,11 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Req:        req,
 		Res:        res,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(s2sname, logreq)
 
 	return
 }
@@ -200,11 +200,11 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Req:        req,
 		Res:        res,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(s2sname, logreq)
 	return
 }
 
@@ -222,10 +222,10 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Req:        req,
 		Res:        res,
 		ServerName: gserver_name,
-		IP:         gip,
+		Ip:         gip,
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(s2sname, logreq)
 	return
 }
