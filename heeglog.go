@@ -15,6 +15,7 @@ var (
 	gip          string
 	gserver_name string
 	s2sname      string
+	service micro.Service
 )
 
 func Println(args ...interface{}) {
@@ -30,37 +31,34 @@ func Json(obj interface{}) string {
 	return string(data)
 }
 
-func Lognode(s2sname string, req *lognode.LogReq)  {
+func Lognode(req *lognode.LogReq)  {
 	if nil == req {
 		return 
 	}
 
-	service := micro.NewService()
-	service.Init()
 	cli := lognode.NewLognodeService(s2sname, service.Client())
 	cli.Log(context.Background(), req)
 
 	return 
 }
 
-func CallLognode(s2sname string, req *lognode.CallLogReq)  {
+func CallLognode(req *lognode.CallLogReq)  {
 	if nil == req {
 		return 
 	}
 
-	service := micro.NewService()
-	service.Init()
 	cli := lognode.NewLognodeService(s2sname, service.Client())
 	cli.CallLog(context.Background(), req)
 
 	return 
 }
 
-func Init(server_name, ip, _s2sname string, islocal bool) {
+func Init(server_name, ip, _s2sname string, svr micro.Service, islocal bool) {
 	gip = ip
 	local = islocal
 	gserver_name = server_name
 	s2sname = _s2sname
+	service = svr
 
 	return
 }
@@ -82,7 +80,7 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(req)
 
 	return
 }
@@ -104,7 +102,7 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode( req)
 
 	return
 }
@@ -126,7 +124,7 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(req)
 
 	return
 }
@@ -148,7 +146,7 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, req)
+	Lognode(req)
 
 	return
 }
@@ -171,7 +169,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	CallLognode(s2sname, logreq)
+	CallLognode(logreq)
 
 	return
 }
@@ -194,7 +192,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	CallLognode(s2sname, logreq)
+	CallLognode(logreq)
 
 	return
 }
@@ -217,7 +215,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	CallLognode(s2sname, logreq)
+	CallLognode( logreq)
 	return
 }
 
@@ -239,6 +237,6 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	CallLognode(s2sname, logreq)
+	CallLognode(logreq)
 	return
 }
