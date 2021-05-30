@@ -3,16 +3,11 @@ package heeglog
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
-	"github.com/heegspace/thrift"
-
 	"github.com/heegspace/heegproto/lognode"
-	"github.com/heegspace/heegrpc"
-	"github.com/heegspace/heegrpc/registry"
-	"github.com/heegspace/heegrpc/rpc"
 	log "github.com/sirupsen/logrus"
+	"github.com/asim/go-micro/v3"
 )
 
 var (
@@ -35,21 +30,17 @@ func Json(obj interface{}) string {
 	return string(data)
 }
 
-func Lognode(s2sname string) (*lognode.LognodeServiceClient, *thrift.TBufferedTransport) {
-	lognode_s2s, err := registry.NewRegistry().Selector(s2sname)
-	if nil != err {
-		return nil, nil
+func Lognode(s2sname string, req *lognode.LogReq)  {
+	if nil == req {
+		return 
 	}
 
-	client := heegrpc.NewHeegRpcClient(rpc.Option{
-		Addr: lognode_s2s.Host,
-		Port: int(lognode_s2s.Port),
-	})
+	service := micro.NewService()
+	service.Init()
+	cli := lognode.NewLognodeService(s2sname, service.Client())
+	cli.Log(context.Background(), req)
 
-	clt, trans := client.Client()
-	lognode := lognode.NewLognodeServiceClient(clt)
-
-	return lognode, trans
+	return 
 }
 
 func Init(server_name, ip, _s2sname string, islocal bool) {
@@ -78,19 +69,7 @@ func Info(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Println("func: " + _func + "  info:" + info)
-
-		return
-	}
-
-	err := logNode.Log(ctx, req)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -112,19 +91,7 @@ func Debug(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Debug("func: " + _func + "  info:" + info)
-
-		return
-	}
-
-	err := logNode.Log(ctx, req)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -146,19 +113,7 @@ func Warn(ctx context.Context, _func string, info string, extra map[string]strin
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Warn("func: " + _func + "  info:" + info)
-
-		return
-	}
-
-	err := logNode.Log(ctx, req)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -180,19 +135,7 @@ func Error(ctx context.Context, _func string, info string, extra map[string]stri
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Error("func: " + _func + "  info:" + info)
-
-		return
-	}
-
-	err := logNode.Log(ctx, req)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -215,19 +158,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Info(_func + "  req: " + req + "  res: " + res)
-
-		return
-	}
-
-	err := logNode.CallLog(ctx, logreq)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -250,19 +181,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Debug(_func + "  req: " + req + "  res: " + res)
-
-		return
-	}
-
-	err := logNode.CallLog(ctx, logreq)
-	if nil != err {
-		fmt.Println(req)
-	}
+	Lognode(s2sname, req)
 
 	return
 }
@@ -285,20 +204,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Warn(_func + "  req: " + req + "  res: " + res)
-
-		return
-	}
-
-	err := logNode.CallLog(ctx, logreq)
-	if nil != err {
-		fmt.Println(req)
-	}
-
+	Lognode(s2sname, req)
 	return
 }
 
@@ -320,19 +226,6 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	logNode, trans := Lognode(s2sname)
-	defer trans.Close()
-
-	if nil == logNode {
-		log.Error(_func + "  req: " + req + "  res: " + res)
-
-		return
-	}
-
-	err := logNode.CallLog(ctx, logreq)
-	if nil != err {
-		fmt.Println(req)
-	}
-
+	Lognode(s2sname, req)
 	return
 }
