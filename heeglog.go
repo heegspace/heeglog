@@ -43,6 +43,19 @@ func Lognode(s2sname string, req *lognode.LogReq)  {
 	return 
 }
 
+func CallLognode(s2sname string, req *lognode.CallLogReq)  {
+	if nil == req {
+		return 
+	}
+
+	service := micro.NewService()
+	service.Init()
+	cli := lognode.NewLognodeService(s2sname, service.Client())
+	cli.CallLog(context.Background(), req)
+
+	return 
+}
+
 func Init(server_name, ip, _s2sname string, islocal bool) {
 	gip = ip
 	local = islocal
@@ -158,7 +171,7 @@ func CallInfo(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, logreq)
+	CallLognode(s2sname, logreq)
 
 	return
 }
@@ -181,7 +194,7 @@ func CallDebug(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, logreq)
+	CallLognode(s2sname, logreq)
 
 	return
 }
@@ -204,7 +217,7 @@ func CallWarn(ctx context.Context, _func string, req, res string, extra map[stri
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, logreq)
+	CallLognode(s2sname, logreq)
 	return
 }
 
@@ -226,6 +239,6 @@ func CallError(ctx context.Context, _func string, req, res string, extra map[str
 		Extra:      extra,
 	}
 
-	Lognode(s2sname, logreq)
+	CallLognode(s2sname, logreq)
 	return
 }
